@@ -1,4 +1,5 @@
 @Echo OFF
+setlocal enabledelayedexpansion
 title Menu limpiador de Perfiles de cursos
 
 :inicio
@@ -18,11 +19,13 @@ echo ************************************************************
 echo *************************-=[MENU]=-*************************
 echo ************************************************************
 echo 1) Limpiar todos los perfiles    
-echo 2) Limpiar perfiles Curso Ma¤ana    
-echo 3) Limpiar perfiles Curso Tarde    
-echo 4) Crear perfiles Curso Ma¤ana y Curso Tarde    
-echo 5) Acerca de...    
+echo 6) Borrar perfiles indicados
 echo ************************************************************
+echo 7) Salir
+set /p var=Seleccione una opcion [1-7]: 
+if "%var%"=="6" goto borrar_personalizados
+if "%var%"=="7" goto salir
+echo. Lo que has indicado no esta dentro del 1 al 7.... ESPABILA TIO!
 echo 6) Salir
 echo ************************************************************
 echo.
@@ -47,10 +50,10 @@ goto inicio
     echo. Limpiando todos los perfiles
     echo.
 	::Eliminacion de archibos de los usuarios
-       	del /S /Q "C:\Users\CURSO MA¥NA"
-		del /S /Q "C:\Users\Curso Ma¤ana"
-		del /S /Q "C:\Users\curso ma¤ana"
-		del /S /Q "C:\Users\curso ma¤anas"
+       	del /S /Q "C:\Users\CURSO MAÂ¥NA"
+		del /S /Q "C:\Users\Curso MaÂ¤ana"
+		del /S /Q "C:\Users\curso maÂ¤ana"
+		del /S /Q "C:\Users\curso maÂ¤anas"
 		
 		del /S /Q "C:\Users\curso medio dia"
 		
@@ -59,10 +62,10 @@ goto inicio
 		del /S /Q "C:\Users\curso tardes"
 		del /S /Q "C:\Users\curso tarde"
 	::Eliminacion de las carpetas de los usuarios	
-		rd /S /Q "C:\Users\CURSO MA¥NA"
-		rd /S /Q "C:\Users\Curso Ma¤ana"
-		rd /S /Q "C:\Users\curso ma¤anas"
-		rd /S /Q "C:\Users\curso ma¤ana"
+		rd /S /Q "C:\Users\CURSO MAÂ¥NA"
+		rd /S /Q "C:\Users\Curso MaÂ¤ana"
+		rd /S /Q "C:\Users\curso maÂ¤anas"
+		rd /S /Q "C:\Users\curso maÂ¤ana"
 		
 		rd /S /Q "C:\Users\curso medio dia"
 		
@@ -71,11 +74,11 @@ goto inicio
 		rd /S /Q "C:\Users\curso tarde"
 		rd /S /Q "C:\Users\CURSO TARDE"
 	::Eliminacion de usuarios de curso ma??	
-		net user "CURSO MA¥NA" /delete
-		net user "curso ma¤ana" /delete
-		net user "Curso Ma¤ana" /delete
-		net user "curso ma¤ana" /delete	
-		net user "curso ma¤anas" /delete
+		net user "CURSO MAÂ¥NA" /delete
+		net user "curso maÂ¤ana" /delete
+		net user "Curso MaÂ¤ana" /delete
+		net user "curso maÂ¤ana" /delete	
+		net user "curso maÂ¤anas" /delete
 	::Eliminacion de usuarios de curso medio dia	
 		net user "curso medio dia" /delete
 	::Eliminacion de usuarios de curso tarde	
@@ -85,9 +88,9 @@ goto inicio
 		net user "curso tardes" /delete
 		net user "curso tarde" /delete
 	::Creacion de usuarios	
-		net user "curso ma¤ana" /add
-		net localgroup administradores "curso ma¤ana" /add
-		WMIC USERACCOUNT WHERE "Name='curso mañana'" SET PasswordExpires=FALSE
+		net user "curso maÂ¤ana" /add
+		net localgroup administradores "curso maÂ¤ana" /add
+		WMIC USERACCOUNT WHERE "Name='curso maÃ±ana'" SET PasswordExpires=FALSE
 		net user "curso tarde" /add
 		net localgroup administradores "curso tarde" /add
 		WMIC USERACCOUNT WHERE "Name='curso tarde'" SET PasswordExpires=FALSE
@@ -101,24 +104,24 @@ goto inicio
 
 :op2
     echo.
-    echo. Limpiando perfiles Curso Mañana
+    echo. Limpiando perfiles Curso MaÃ±ana
     echo.
-        del /S /Q "C:\Users\CURSO MA¥NA"
-		del /S /Q "C:\Users\Curso Ma¤ana"
-		del /S /Q "C:\Users\curso ma¤ana"
-		del /S /Q "C:\Users\curso ma¤anas"
+        del /S /Q "C:\Users\CURSO MAÂ¥NA"
+		del /S /Q "C:\Users\Curso MaÂ¤ana"
+		del /S /Q "C:\Users\curso maÂ¤ana"
+		del /S /Q "C:\Users\curso maÂ¤anas"
 		rd /S /Q "C:\Users\CURSO MA?NA"
-		rd /S /Q "C:\Users\Curso Ma¤ana"
-		rd /S /Q "C:\Users\curso ma¤anas"
-		rd /S /Q "C:\Users\curso ma¤ana"
-		net user "CURSO MA¥NA" /delete
-		net user "curso ma¤ana" /delete
-		net user "Curso Ma¤ana" /delete
-		net user "curso ma¤ana" /delete	
-		net user "curso ma¤anas" /delete
-		net user "curso ma¤ana" /add
-		net localgroup administradores "curso ma¤ana" /add
-		WMIC USERACCOUNT WHERE "Name='curso ma¤ana'" SET PasswordExpires=FALSE
+		rd /S /Q "C:\Users\Curso MaÂ¤ana"
+		rd /S /Q "C:\Users\curso maÂ¤anas"
+		rd /S /Q "C:\Users\curso maÂ¤ana"
+		net user "CURSO MAÂ¥NA" /delete
+		net user "curso maÂ¤ana" /delete
+		net user "Curso MaÂ¤ana" /delete
+		net user "curso maÂ¤ana" /delete	
+		net user "curso maÂ¤anas" /delete
+		net user "curso maÂ¤ana" /add
+		net localgroup administradores "curso maÂ¤ana" /add
+		WMIC USERACCOUNT WHERE "Name='curso maÂ¤ana'" SET PasswordExpires=FALSE
     echo.
     pause
     exit
@@ -149,10 +152,10 @@ goto inicio
     
 :op4
     echo.
-    echo. Crear perfiles Curso Ma¤ana y Curso Tarde
+    echo. Crear perfiles Curso MaÂ¤ana y Curso Tarde
     echo.
-        net localgroup administradores "curso ma¤ana" /add
-		WMIC USERACCOUNT WHERE "Name='curso ma¤ana'" SET PasswordExpires=FALSE
+        net localgroup administradores "curso maÂ¤ana" /add
+		WMIC USERACCOUNT WHERE "Name='curso maÂ¤ana'" SET PasswordExpires=FALSE
 		net user "curso tarde" /add
 		net localgroup administradores "curso tarde" /add
 		WMIC USERACCOUNT WHERE "Name='curso tarde'" SET PasswordExpires=FALSE
@@ -168,7 +171,21 @@ color 0A
     echo.
     echo. Esta version del Limpiador de perfiles by SABAS 
     echo. se la dedico a todos los Tecnicos informaticos 
-    echo. de Dipaweb que tanto y tanto me han ense¤ado.	
+:borrar_personalizados
+    set /p cantidad=Introduce el numero de perfiles a eliminar:
+    for /l %%i in (1,1,!cantidad!) do (
+        set /p usuario=Nombre de usuario %%i:
+        set /p requiere=Requiere contrasena? (s/n):
+        if /I "!requiere!"=="s" (
+            set /p clave=Introduce la contrasena para !usuario!:
+            net user "!usuario!" "!clave!" /delete
+        ) else (
+            net user "!usuario!" /delete
+        )
+        rd /S /Q "C:\Users\!usuario!"
+    )
+    goto inicio
+    echo. de Dipaweb que tanto y tanto me han enseÂ¤ado.	
 	echo. Javier	
 	echo. Pedro	
 	echo. JC	

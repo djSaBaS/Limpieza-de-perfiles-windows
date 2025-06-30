@@ -9,7 +9,8 @@ El script ofrece las siguientes opciones:
 3. **Limpiar perfiles Curso Tarde**: Elimina los perfiles de usuarios relacionados con el curso de la tarde.
 4. **Crear perfiles Curso Mañana y Curso Tarde**: Crea nuevos perfiles de usuarios para los cursos de la mañana y la tarde.
 5. **Acerca de...**: Muestra información sobre el creador del script y dedicatorias.
-6. **Salir**: Cierra el script.
+6. **Borrar perfiles indicados**: Permite introducir usuarios específicos para eliminarlos.
+7. **Salir**: Cierra el script.
 
 ## Uso
 
