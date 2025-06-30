@@ -17,7 +17,8 @@ def show_menu():
     print("3) Limpiar perfiles Curso Tarde")
     print("4) Crear perfiles Curso Mañana y Curso Tarde")
     print("5) Acerca de...")
-    print("6) Salir")
+    print("6) Borrar perfiles indicados")
+    print("7) Salir")
     print("************************************************************")
     print("")
 
@@ -63,6 +64,20 @@ def create_profile(profile_name):
     subprocess.run(["net", "localgroup", "administrators", profile_name, "/add"])
     subprocess.run(["WMIC", "USERACCOUNT", "WHERE", f"Name='{profile_name}'", "SET", "PasswordExpires=FALSE"])
 
+def delete_custom_profiles():
+    cantidad = int(input("Introduce el numero de perfiles a eliminar: "))
+    for i in range(1, cantidad + 1):
+        usuario = input(f"Nombre de usuario {i}: ")
+        requiere = input("Requiere contrasena? (s/n): ")
+        if requiere.lower() == "s":
+            clave = input(f"Introduce la contrasena para {usuario}: ")
+            subprocess.run(["net", "user", usuario, clave, "/delete"])
+        else:
+            subprocess.run(["net", "user", usuario, "/delete"])
+        path = os.path.join("C:\\Users", usuario)
+        if os.path.exists(path):
+            shutil.rmtree(path)
+
 def about():
     print("Acerca de...")
     print("Esta version del Limpiador de perfiles by SABAS")
@@ -84,7 +99,7 @@ def about():
 def main():
     while True:
         show_menu()
-        choice = input("Seleccione una opcion [1-6]: ")
+        choice = input("Seleccione una opcion [1-7]: ")
         if choice == "1":
             clean_all_profiles()
         elif choice == "2":
@@ -96,9 +111,11 @@ def main():
         elif choice == "5":
             about()
         elif choice == "6":
+            delete_custom_profiles()
+        elif choice == "7":
             break
         else:
-            print("Lo que has indicado no esta dentro del 1 al 6.... ESPABILA TIO!")
+            print("Lo que has indicado no esta dentro del 1 al 7.... ESPABILA TIO!")
         input("Presione Enter para continuar...")
 
 if __name__ == "__main__":
