@@ -14,7 +14,8 @@ function Show-Menu {
     Write-Host "3) Limpiar perfiles Curso Tarde"
     Write-Host "4) Crear perfiles Curso Mañana y Curso Tarde"
     Write-Host "5) Acerca de..."
-    Write-Host "6) Salir"
+    Write-Host "6) Borrar perfiles indicados"
+    Write-Host "7) Salir"
     Write-Host "************************************************************"
     Write-Host ""
 }
@@ -76,6 +77,24 @@ function Create-Profiles {
     WMIC USERACCOUNT WHERE "Name='curso tarde'" SET PasswordExpires=FALSE
 }
 
+function Delete-Custom-Profiles {
+    $cantidad = Read-Host "Introduce el numero de perfiles a eliminar"
+    for ($i = 1; $i -le [int]$cantidad; $i++) {
+        $usuario = Read-Host "Nombre de usuario $i"
+        $requiere = Read-Host "Requiere contrasena? (s/n)"
+        if ($requiere -eq 's') {
+            $clave = Read-Host "Introduce la contrasena para $usuario"
+            net user "$usuario" "$clave" /delete
+        } else {
+            net user "$usuario" /delete
+        }
+        $path = "C:\\Users\\$usuario"
+        if (Test-Path $path) {
+            Remove-Item -Recurse -Force $path
+        }
+    }
+}
+
 function About {
     Clear-Host
     Write-Host "Acerca de..."
@@ -99,18 +118,19 @@ function About {
 function Main {
     do {
         Show-Menu
-        $choice = Read-Host "Seleccione una opcion [1-6]"
+        $choice = Read-Host "Seleccione una opcion [1-7]"
         switch ($choice) {
             1 { Clean-All-Profiles }
             2 { Clean-Morning-Profiles }
             3 { Clean-Afternoon-Profiles }
             4 { Create-Profiles }
             5 { About }
-            6 { exit }
-            default { Write-Host "Lo que has indicado no esta dentro del 1 al 6.... ESPABILA TIO!" }
+            6 { Delete-Custom-Profiles }
+            7 { exit }
+            default { Write-Host "Lo que has indicado no esta dentro del 1 al 7.... ESPABILA TIO!" }
         }
         pause
-    } while ($choice -ne 6)
+    } while ($choice -ne 7)
 }
 
 Main
