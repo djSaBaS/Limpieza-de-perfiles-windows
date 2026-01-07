@@ -20,19 +20,29 @@ function Show-Menu {
     Write-Host ""
 }
 
+function Remove-UserAndProfile {
+    param ($username)
+    try {
+        net user $username /delete
+    } catch {
+        Write-Host "El usuario $username no existe o no se pudo eliminar."
+    }
+    $path = "C:\\Users\\$username"
+    if (Test-Path $path) {
+        try {
+            Remove-Item -Recurse -Force $path -ErrorAction Stop
+        } catch {
+            Write-Host "El perfil $username no se pudo eliminar."
+        }
+    }
+}
+
 function Clean-All-Profiles {
     Write-Host "Limpiando todos los perfiles..."
-    Remove-Item -Recurse -Force "C:\Users\CURSO MAÑANA","C:\Users\Curso Mañana","C:\Users\curso mañana","C:\Users\curso mañanas","C:\Users\curso medio dia","C:\Users\Curso Tarde","C:\Users\CURSO TARDE","C:\Users\curso tardes","C:\Users\curso tarde"
-    net user "CURSO MAÑANA" /delete
-    net user "curso mañana" /delete
-    net user "Curso Mañana" /delete
-    net user "curso mañanas" /delete
-    net user "curso medio dia" /delete
-    net user "curso tarde" /delete
-    net user "CURSO TARDE" /delete
-    net user "Curso Tarde" /delete
-    net user "curso tardes" /delete
-    net user "curso tarde" /delete
+    $profiles = "CURSO MAÑANA", "Curso Mañana", "curso mañana", "curso mañanas", "curso medio dia", "Curso Tarde", "CURSO TARDE", "curso tardes", "curso tarde"
+    foreach ($profile in $profiles) {
+        Remove-UserAndProfile $profile
+    }
     net user "curso mañana" /add
     net localgroup administrators "curso mañana" /add
     WMIC USERACCOUNT WHERE "Name='curso mañana'" SET PasswordExpires=FALSE
@@ -44,11 +54,10 @@ function Clean-All-Profiles {
 
 function Clean-Morning-Profiles {
     Write-Host "Limpiando perfiles Curso Mañana..."
-    Remove-Item -Recurse -Force "C:\Users\CURSO MAÑANA","C:\Users\Curso Mañana","C:\Users\curso mañana","C:\Users\curso mañanas"
-    net user "CURSO MAÑANA" /delete
-    net user "curso mañana" /delete
-    net user "Curso Mañana" /delete
-    net user "curso mañanas" /delete
+    $profiles = "CURSO MAÑANA", "Curso Mañana", "curso mañana", "curso mañanas"
+    foreach ($profile in $profiles) {
+        Remove-UserAndProfile $profile
+    }
     net user "curso mañana" /add
     net localgroup administrators "curso mañana" /add
     WMIC USERACCOUNT WHERE "Name='curso mañana'" SET PasswordExpires=FALSE
@@ -56,12 +65,10 @@ function Clean-Morning-Profiles {
 
 function Clean-Afternoon-Profiles {
     Write-Host "Limpiando perfiles Curso Tarde..."
-    Remove-Item -Recurse -Force "C:\Users\Curso Tarde","C:\Users\CURSO TARDE","C:\Users\curso tardes","C:\Users\curso tarde"
-    net user "curso tarde" /delete
-    net user "CURSO TARDE" /delete
-    net user "Curso Tarde" /delete
-    net user "curso tardes" /delete
-    net user "curso tarde" /delete
+    $profiles = "Curso Tarde", "CURSO TARDE", "curso tardes", "curso tarde"
+    foreach ($profile in $profiles) {
+        Remove-UserAndProfile $profile
+    }
     net user "curso tarde" /add
     net localgroup administrators "curso tarde" /add
     WMIC USERACCOUNT WHERE "Name='curso tarde'" SET PasswordExpires=FALSE
@@ -81,17 +88,7 @@ function Delete-Custom-Profiles {
     $cantidad = Read-Host "Introduce el numero de perfiles a eliminar"
     for ($i = 1; $i -le [int]$cantidad; $i++) {
         $usuario = Read-Host "Nombre de usuario $i"
-        $requiere = Read-Host "Requiere contrasena? (s/n)"
-        if ($requiere -eq 's') {
-            $clave = Read-Host "Introduce la contrasena para $usuario"
-            net user "$usuario" "$clave" /delete
-        } else {
-            net user "$usuario" /delete
-        }
-        $path = "C:\\Users\\$usuario"
-        if (Test-Path $path) {
-            Remove-Item -Recurse -Force $path
-        }
+        Remove-UserAndProfile $usuario.ToLower()
     }
 }
 
